@@ -38,7 +38,7 @@ const RegisterAdmin = () =>
         <div>
             <Header />
             <div>
-                <Button className='switch-btn' size="small" color='secondary' variant='outlined' onClick={() => navigate("/registerUser")}>User</Button>
+                <Button className='switch-btn' size="small" color='secondary' variant='contained' onClick={() => navigate("/registerUser")}>User</Button>
             </div>
             <div className="inp-box">
                 <input type="text" className="email-input" placeholder="Email" onChange={(e) => setEmail(e.target.value)} />

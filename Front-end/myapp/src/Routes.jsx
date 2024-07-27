@@ -4,6 +4,8 @@ import RegisterUser from './Pages/RegisterUser';
 import RegisterAdmin from './Pages/RegisterAdmin';
 import LoginUser from './Pages/LoginUser';
 import LoginAdmin from './Pages/LoginAdmin';
+import ShowAdmin from './Pages/ShowAdmin';
+import ShowUser from './Pages/ShowUser';
 const Routing = () =>
 {
     return (
@@ -13,10 +15,10 @@ const Routing = () =>
                     <Route exact path="/" element={<RegisterUser />} />
                     <Route path="/loginUser" element={<LoginUser />} />
                     <Route path="/registerUser" element={<RegisterUser />} />
-                    {/* <Route path="/homeUser" element={<ShowUser />} /> */}
+                    <Route path="/homeUser" element={<ShowUser />} />
                     <Route path="/loginAdmin" element={<LoginAdmin />} />
                     <Route path="/registerAdmin" element={<RegisterAdmin />} />
-                    {/* <Route path="/homeAdmin" element={<ShowAdmin />} /> */}
+                    <Route path="/homeAdmin" element={<ShowAdmin />} />
                 </Routes>
             </Router>
         </div >

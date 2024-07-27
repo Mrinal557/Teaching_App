@@ -4,12 +4,12 @@ import Header from '../Components/Header'
 const ShowAdmin = () =>
 {
     return (
-        <div>
+        <>
             <Header />
             <div>
-                This is Admin's Home Page
+                This is Admin's home page!
             </div>
-        </div>
+        </>
     )
 }
 

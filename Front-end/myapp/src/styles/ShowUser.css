@@ -1,0 +1,15 @@
+.user-container{
+    border: 3px solid pink;
+    width: 60%;
+    margin: auto;
+    padding: 2%;
+    display: grid;
+    align-items: center;
+    justify-content: center;
+}
+.lectures,.test-series{
+    display: grid;
+}
+.lect-btn{
+    margin:"25px";
+}

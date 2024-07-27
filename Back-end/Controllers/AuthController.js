@@ -7,7 +7,7 @@ const sendEmail = require('../utils/sendEmail');
 
 const generateToken = (id) =>
 {
-  return jwt.sign({ id }, import.meta.env.JWT_SECRET, {
+  return jwt.sign({ id }, process.env.JWT_SECRET, {
     expiresIn: '1h',
   });
 };
@@ -174,6 +174,46 @@ exports.resetPassword = async (req, res) =>
   } catch (error)
   {
     console.error('Error in resetPassword:', error.message);
+    res.status(500).json({ error: 'Server error' });
+  }
+};
+
+exports.getUserByEmail = async (req, res) =>
+{
+  const { email } = req.params;
+
+  try
+  {
+    const user = await User.findOne({ email });
+
+    if (!user)
+    {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    res.status(200).json(user);
+  } catch (error)
+  {
+    res.status(500).json({ error: 'Server error' });
+  }
+};
+
+exports.getAdminByEmail = async (req, res) =>
+{
+  const { email } = req.params;
+
+  try
+  {
+    const admin = await Admin.findOne({ email });
+
+    if (!admin)
+    {
+      return res.status(404).json({ error: 'Admin not found' });
+    }
+
+    res.status(200).json(admin);
+  } catch (error)
+  {
     res.status(500).json({ error: 'Server error' });
   }
 };
