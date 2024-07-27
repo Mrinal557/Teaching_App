@@ -1,0 +1,34 @@
+.inp-box{
+    margin: auto;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid black;
+    width: 50%;
+    /* background-image: linear-gradient(45deg, rgb(194, 191, 24), rgb(226, 52, 52)); */
+}
+.email-input{
+    margin: auto;
+    align-items: center;
+    justify-content: center;
+    width: 80%;
+    height: 30px;
+    border: 2px solid pink;
+}
+.pass-input{
+    margin-top: 10%;
+    align-items: center;
+    justify-content: center;
+    width: 80%;
+    height: 30px;
+    border: 2px solid pink;
+}
+.login-btn{
+     align-items: center;
+     justify-content: center;
+}
+.switch-btn{
+    display: flex;
+    justify-content: flex-end;
+    position: relative;
+    float: right;
+}
