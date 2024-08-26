@@ -1,12 +1,11 @@
-import { defineConfig } from 'vite'
-import reactRefresh from '@vitejs/plugin-react-refresh'
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
 
-// https://vitejs.dev/config/
 export default defineConfig({
-  // This changes the out put dir from dist to build
-  // comment this out if that isn't relevant for your project
-  build: {
-    outDir: 'build',
+  plugins: [react()],
+  server: {
+    proxy: {
+      '/api': 'http://localhost:5000', // adjust according to your backend port
+    },
   },
-  plugins: [reactRefresh()],
-})
+});

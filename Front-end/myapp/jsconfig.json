@@ -30,7 +30,7 @@
         "src/Components/Header.tsx",
         "src/Pages/RegisterAdmin.tsx",
         "src/Pages/RegisterUser.tsx",
-        "src/Pages/ShowAdmin.tsx",
+        "src/Pages/ShowAdmin.jsx",
         "src/Pages/ShowUser.tsx"
 , "src/index.jsx", "src/Routes.jsx"    ],
     "exclude": []

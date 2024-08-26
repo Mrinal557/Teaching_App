@@ -9,19 +9,26 @@ import 'sweetalert2/src/sweetalert2.scss';
 const LoginUser = () =>
 {
     const [ email, setEmail ] = useState("");
-    const [ pass, setPass ] = useState("");
+    const [ password, setPassword ] = useState("");
     const navigate = useNavigate();
-    function login()
+    const login= async()=> 
     {
-        axios.get(`http://localhost:5000/api/auth/getuser/${email}`).then(() => { navigate("/homeUser") }).catch((err) =>
+        try
         {
+            const response = await axios.post('http://localhost:5000/api/auth/loginUser', { email, password });
+            const token = response.data.token;
+            localStorage.setItem('userToken', token);
+            navigate("/homeUser");
+        } catch (error)
+        {
+            console.log(error);
             Swal.fire({
                 title: 'Error!',
                 text: 'Account Not Found, Try Again',
                 icon: 'error',
                 confirmButtonText: 'Cool'
             });
-        });
+        }
     }
     return (
         <div>
@@ -31,7 +38,7 @@ const LoginUser = () =>
             </div>
             <div className="inp-box">
                 <input type="text" className="email-input" placeholder="Email" onChange={(e) => setEmail(e.target.value)} />
-                <input type="text" className="pass-input" placeholder="Password" onChange={(e) => setPass(e.target.value)} />
+                <input type="text" className="pass-input" placeholder="Password" onChange={(e) => setPassword(e.target.value)} />
                 <p>Forgot Password?</p>
                 <div className="login-btn">
                     <Button variant="contained" onClick={() => login()}>Login</Button>

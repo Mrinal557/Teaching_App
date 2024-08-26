@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const crypto = require('crypto');
 const sendEmail = require('../utils/sendEmail');
-
+// console.log('JWT_SECRET:', process.env.JWT_SECRET);
 const generateToken = (id) =>
 {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -74,18 +74,30 @@ exports.loginUser = async (req, res) =>
 // Login an admin
 exports.loginAdmin = async (req, res) =>
 {
-  const { email, password } = req.body;
-
+  const email = req.body.email, password = req.body.password;
+  // console.log('Request body:', req.body);
   try
   {
+    // console.log('Login attempt with email:', email);
+    // console.log('Password provided:', password);
     const admin = await Admin.findOne({ email });
+    // console.log('Admin found:', admin);
 
-    if (!admin || !(await admin.matchPassword(password)))
+    const isMatch = await bcrypt.compare(password, admin.password);
+    // console.log('Password match status:', isMatch);
+    if (!admin)
+    {
+      return res.status(401).json({ error: 'Invalid email or password' });
+    }
+
+
+    if (!isMatch)
     {
       return res.status(401).json({ error: 'Invalid email or password' });
     }
 
     const token = generateToken(admin._id);
+    // console.log('Generated JWT token:', token);
     res.json({ token });
   } catch (error)
   {

@@ -9,13 +9,13 @@ import { useNavigate } from 'react-router-dom';
 const RegisterUser = () =>
 {
     const [ email, setEmail ] = useState("");
-    const [ pass, setPass ] = useState("");
+    const [ password, setPassword ] = useState("");
     const navigate = useNavigate();
     function register()
     {
         axios.post('http://localhost:5000/api/auth/registerUser', {
             email: email,
-            password: pass
+            password: password
         }).then((res) =>
         {
             Swal.fire({
@@ -43,7 +43,7 @@ const RegisterUser = () =>
             </div>
             <div className="inp-box">
                 <input type="text" className="email-input" placeholder="Email" onChange={(e) => setEmail(e.target.value)} />
-                <input type="text" className="pass-input" placeholder="Password" onChange={(e) => setPass(e.target.value)} />
+                <input type="text" className="pass-input" placeholder="Password" onChange={(e) => setPassword(e.target.value)} />
                 <p>Forgot Password?</p>
                 <div className="login-btn">
                     <Button variant="contained" onClick={() => register()}>Register</Button>

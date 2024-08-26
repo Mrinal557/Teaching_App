@@ -1,31 +1,112 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import Header from '../Components/Header'
 import '../styles/ShowUser.css';
+import axios from 'axios';
 import { Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 const ShowUser = () =>
 {
     const navigate = useNavigate();
+    interface Subscription
+    {
+        videoLectures: boolean;
+        testSeries: boolean;
+    }
+
+    interface Subscriptions
+    {
+        'physicalChemistry': Subscription;
+        'inorganicChemistry': Subscription;
+        'organicChemistry': Subscription;
+    }
+    const [ subscriptions, setSubscriptions ] = useState<Subscriptions>({
+        "physicalChemistry": { videoLectures: false, testSeries: false },
+        "inorganicChemistry": { videoLectures: false, testSeries: false },
+        "organicChemistry": { videoLectures: false, testSeries: false },
+    });
+
+    useEffect(() =>
+    {
+        const fetchSubscriptions = async () =>
+        {
+            try
+            {
+                const token = localStorage.getItem('userToken');
+                if (!token) throw new Error('No token found');
+
+                const response = await axios.get('http://localhost:5000/api/subscriptions', {
+                    headers: { Authorization: `Bearer ${token}` }
+                });
+                setSubscriptions(response.data);
+            } catch (error)
+            {
+                console.error('Error fetching subscriptions:', error);
+                // Handle error (e.g., redirect to login if unauthorized)
+            }
+        };
+
+        fetchSubscriptions();
+    }, []);
+
+    const logout = () =>
+    {
+        localStorage.removeItem('userToken');
+        window.location.replace('/loginUser');
+        window.localStorage.clear();
+        window.sessionStorage.clear();
+    };
+
+    const showL = (sub: keyof Subscriptions) => () =>
+    {
+        const isSubscribed = subscriptions[ sub ].videoLectures;
+        if (isSubscribed)
+        {
+            // `http://localhost:5000/api/content/${subject}/${section}`
+            // alert('redirecting you to VL page!');
+            navigate(`http://localhost:5000/api/content/${sub}/videoLectures`);
+        } else
+        {
+            // alert('not yet subscribed!');
+            navigate(`/subscribe?subject=${sub}&section=videoLectures`);
+        }
+    };
+
+    const showT = (sub: keyof Subscriptions) => () =>
+    {
+        const isSubscribed = subscriptions[ sub ].testSeries;
+        if (isSubscribed)
+        {
+            // alert('navigating you to TS page!');
+            navigate(`http://localhost:5000/api/content/${sub}/testSeries`);
+        } else
+        {
+            // alert('not yet subscribed!');
+            navigate(`/subscribe?subject=${sub}&section=testSeries`);
+        }
+    };
     return (
         <div>
             <Header />
+            <div className='logout-btn'>
+                <Button color='secondary' variant='contained' onClick={logout}>Logout</Button>
+            </div>
             <div className='user-container'>
                 <p style={{ textDecoration: "underline", fontSize: "18px" }}>Lectures on</p>
                 <div className='lectures'>
 
-                    <Button variant='contained' size='medium' onClick={() => navigate("/phy-lect")}>Physical</Button>
+                    <Button variant='contained' size='medium' onClick={showL("physicalChemistry")}>Physical</Button>
                     <br />
-                    <Button variant='contained' size='medium' onClick={() => navigate("/ino-lect")}>Inorganic</Button>
+                    <Button variant='contained' size='medium' onClick={showL('inorganicChemistry')}>Inorganic</Button>
                     <br />
-                    <Button variant='contained' size='medium' onClick={() => navigate("/org-lect")}>Organic</Button>
+                    <Button variant='contained' size='medium' onClick={showL("organicChemistry")}>Organic</Button>
                 </div>
                 <p style={{ textDecoration: "underline", fontSize: "18px" }}>Test Series on</p>
                 <div className='test-series'>
-                    <Button variant='contained' size='medium' onClick={() => navigate("/phy-ts")}>Physical</Button>
+                    <Button variant='contained' size='medium' onClick={showT("physicalChemistry")}>Physical</Button>
                     <br />
-                    <Button variant='contained' size='medium' onClick={() => navigate("/ino-ts")}>Inorganic</Button>
+                    <Button variant='contained' size='medium' onClick={showT("inorganicChemistry")}>Inorganic</Button>
                     <br />
-                    <Button variant='contained' size='medium' onClick={() => navigate("/org-ts")}>Organic</Button>
+                    <Button variant='contained' size='medium' onClick={showT("organicChemistry")}>Organic</Button>
                 </div>
             </div>
         </div>

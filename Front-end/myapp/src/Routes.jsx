@@ -6,6 +6,7 @@ import LoginUser from './Pages/LoginUser';
 import LoginAdmin from './Pages/LoginAdmin';
 import ShowAdmin from './Pages/ShowAdmin';
 import ShowUser from './Pages/ShowUser';
+import Subscribe from './Pages/Subscribe';
 const Routing = () =>
 {
     return (
@@ -19,6 +20,7 @@ const Routing = () =>
                     <Route path="/loginAdmin" element={<LoginAdmin />} />
                     <Route path="/registerAdmin" element={<RegisterAdmin />} />
                     <Route path="/homeAdmin" element={<ShowAdmin />} />
+                    <Route path="/subscribe" element={<Subscribe />} />
                 </Routes>
             </Router>
         </div >
