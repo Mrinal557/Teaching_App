@@ -25,9 +25,8 @@ app.use(express.json());
 app.use(cors());
 app.use('/api/auth', authRoutes);
 app.use('/api/content', contentRoutes);
-// app.use('/api/subscription', subscriptionRoutes);
-app.use('/api/subscriptions', subscriptionRoutes);
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use('/api/subscription', subscriptionRoutes);
+// app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 const PORT = process.env.PORT || 5000;
 

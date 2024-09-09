@@ -2,24 +2,14 @@
 const express = require('express');
 const router = express.Router();
 const contentController = require('../Controllers/ContentController');
-const { protectAdmin } = require('../middleware/authMiddleware');
-const multer = require('multer');
-
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, 'uploads/');
-    },
-    filename: (req, file, cb) => {
-        cb(null, `${Date.now()}-${file.originalname}`);
-    }
-});
-
-const upload = multer({ storage });
+const { protectAdmin, protectUser } = require('../middleware/authMiddleware');
+const subscriptionController = require('../Controllers/SubscriptionController');
 
 // Upload content (video lectures or test series)
-router.post('/upload', protectAdmin, upload.single('file'), contentController.uploadContent);
+router.post('/upload', protectAdmin, contentController.uploadContent);
 
 // Get content by subject and section
-router.get('/:subject/:section', contentController.getContentBySubjectAndSection);
+router.get('/:subject/:section', protectUser, contentController.getContentBySubjectAndSection);
+router.get('/subscriptions', protectUser, subscriptionController.getSubscriptions);
 
 module.exports = router;

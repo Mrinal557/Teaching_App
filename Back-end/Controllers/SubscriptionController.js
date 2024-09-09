@@ -19,24 +19,6 @@ const calculatePrice = async (subject, section) =>
     return price;
 };
 
-const createSubscription = async (req, res) =>
-{
-    const { subject, section } = req.body;
-    const user = req.user;
-    try
-    {
-        const price = await calculatePrice(subject, section);
-        // const paymentDetails = await initiatePayment(price, "mrinal.annand@okhdfcbank");
-
-        const paymentUrl = `upi://pay?pa=mrinal.anand@okhdfcbank&pn=Mrinal Anand&am=${price}&cu=INR`;
-        res.status(200).json({ paymentUrl });
-    } catch (error)
-    {
-        console.error('Error initiating payment:', error);
-        res.status(500).json({ message: 'Error initiating payment' });
-    }
-};
-
 const handlePaymentCallback = async (req, res) => {
     const { paymentId, userId, subject, section } = req.body;
 
@@ -69,10 +51,46 @@ const handlePaymentCallback = async (req, res) => {
     }
 };
 
-const getSubscriptions = async (req, res) =>
-{
+const getSubscriptions = async (req, res) => {
     const user = req.user;
-    res.status(200).json(user.subscriptions);
+
+    // Define the default structure for subscriptions
+    const defaultSubscriptions = {
+        "physicalChemistry": { videoLectures: false, testSeries: false },
+        "inorganicChemistry": { videoLectures: false, testSeries: false },
+        "organicChemistry": { videoLectures: false, testSeries: false },
+    };
+
+    try {
+        // Retrieve user subscriptions or use default structure
+        const userSubscriptions = user.subscriptions || {};
+
+        // Merge userSubscriptions with defaultSubscriptions
+        const mergedSubscriptions = {
+            ...defaultSubscriptions,
+            ...userSubscriptions
+        };
+
+        // Ensure all sections are present for each subject
+        Object.keys(defaultSubscriptions).forEach(subject => {
+            if (!mergedSubscriptions[subject]) {
+                mergedSubscriptions[subject] = defaultSubscriptions[subject];
+            } else {
+                // Ensure both sections are present
+                Object.keys(defaultSubscriptions[subject]).forEach(section => {
+                    if (typeof mergedSubscriptions[subject][section] === 'undefined') {
+                        mergedSubscriptions[subject][section] = false;
+                    }
+                });
+            }
+        });
+
+        res.status(200).json(mergedSubscriptions);
+    } catch (error) {
+        console.error('Error fetching subscriptions:', error);
+        res.status(500).json({ message: 'Error fetching subscriptions' });
+    }
 };
 
-module.exports = { createSubscription, handlePaymentCallback, getSubscriptions };
+
+module.exports = { handlePaymentCallback, getSubscriptions };

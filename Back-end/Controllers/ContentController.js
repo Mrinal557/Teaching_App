@@ -4,8 +4,13 @@ const TestSeries = require('../models/TestSeries');
 
 const uploadContent = async (req, res) => {
     try {
-        const { subject, section, title, description } = req.body;
-        const fileUrl = req.file.path; // Path where the file is stored
+        const { subject, section, title, description, link } = req.body;
+
+        // console.log("Request Body:", req.body);
+
+        if (!link) {
+            return res.status(400).json({ error: 'Link is required' });
+        }
 
         let content;
 
@@ -15,7 +20,7 @@ const uploadContent = async (req, res) => {
                 section,
                 title,
                 description,
-                url: fileUrl,
+                url: link,
                 uploadedBy: req.admin._id,
             });
         } else if (section === 'testSeries') {
@@ -24,14 +29,18 @@ const uploadContent = async (req, res) => {
                 section,
                 title,
                 description,
-                url: fileUrl,
+                url: link,
                 uploadedBy: req.admin._id,
             });
         }
 
         await content.save();
+
+        // console.log("Content saved:", content);
+
         res.status(201).json({ message: 'Content uploaded successfully' });
     } catch (error) {
+        console.error('Error uploading content:', error.message);
         res.status(400).json({ error: error.message });
     }
 };

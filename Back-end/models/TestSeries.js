@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 
 const testSeriesSchema = new mongoose.Schema({
   subject: { type: String, required: true },
+  section: { type: String, required: true },
   title: { type: String, required: true },
   description: String,
   url: { type: String, required: true },

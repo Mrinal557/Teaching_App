@@ -19,12 +19,14 @@ const protectUser = async (req, res, next) =>
   try
   {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    // console.log('Token decoded:', decoded);
     req.user = await User.findById(decoded.id).select('-password');
     if (!req.user)
     {
       console.log('User not found!');
       return res.status(401).json({ error: 'Not authorized, user not found' });
     }
+    // console.log('User authenticated:', req.user.email);
     next();
   } catch (error)
   {

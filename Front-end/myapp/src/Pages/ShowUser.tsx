@@ -4,82 +4,66 @@ import '../styles/ShowUser.css';
 import axios from 'axios';
 import { Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-const ShowUser = () =>
-{
+const ShowUser = () => {
     const navigate = useNavigate();
-    interface Subscription
-    {
+    interface Subscription {
         videoLectures: boolean;
         testSeries: boolean;
     }
 
-    interface Subscriptions
-    {
+    interface Subscriptions {
         'physicalChemistry': Subscription;
         'inorganicChemistry': Subscription;
         'organicChemistry': Subscription;
     }
-    const [ subscriptions, setSubscriptions ] = useState<Subscriptions>({
+    const [subs, setSubs] = useState<Subscriptions>({
         "physicalChemistry": { videoLectures: false, testSeries: false },
         "inorganicChemistry": { videoLectures: false, testSeries: false },
         "organicChemistry": { videoLectures: false, testSeries: false },
     });
 
-    useEffect(() =>
-    {
-        const fetchSubscriptions = async () =>
-        {
-            try
-            {
-                const token = localStorage.getItem('userToken');
-                if (!token) throw new Error('No token found');
+    useEffect(() => {
+        const fetchSubscriptions = async () => {
+            const token = localStorage.getItem('userToken');
+            // console.log('user token: ', token);
+            if (!token) throw new Error('No token found');
 
-                const response = await axios.get('http://localhost:5000/api/subscriptions', {
-                    headers: { Authorization: `Bearer ${token}` }
-                });
-                setSubscriptions(response.data);
-            } catch (error)
-            {
-                console.error('Error fetching subscriptions:', error);
-                // Handle error (e.g., redirect to login if unauthorized)
-            }
+            await axios.get('http://localhost:5000/api/subscription/subscriptions', {
+                headers: { Authorization: `Bearer ${token}` }
+            }).then((res) => { setSubs(res.data); })
+                .catch((err) => console.log(err));
+            // setSubscriptions(response.data);
         };
 
         fetchSubscriptions();
     }, []);
 
-    const logout = () =>
-    {
+    const logout = () => {
         localStorage.removeItem('userToken');
         window.location.replace('/loginUser');
         window.localStorage.clear();
         window.sessionStorage.clear();
     };
 
-    const showL = (sub: keyof Subscriptions) => () =>
-    {
-        const isSubscribed = subscriptions[ sub ].videoLectures;
-        if (isSubscribed)
-        {
+    const showL = (sub: keyof Subscriptions) => () => {
+        const isSubscribed = subs[sub].videoLectures;
+        if (isSubscribed) {
             // `http://localhost:5000/api/content/${subject}/${section}`
             // alert('redirecting you to VL page!');
-            navigate(`http://localhost:5000/api/content/${sub}/videoLectures`);
-        } else
-        {
+            navigate(`/content/${sub}/videoLectures`);
+        } else {
             // alert('not yet subscribed!');
             navigate(`/subscribe?subject=${sub}&section=videoLectures`);
         }
     };
 
-    const showT = (sub: keyof Subscriptions) => () =>
-    {
-        const isSubscribed = subscriptions[ sub ].testSeries;
-        if (isSubscribed)
-        {
+    const showT = (sub: keyof Subscriptions) => () => {
+        console.log('subscriptions[sub]: ', subs);
+        const isSubscribed = subs[sub].testSeries;
+        if (isSubscribed) {
             // alert('navigating you to TS page!');
-            navigate(`http://localhost:5000/api/content/${sub}/testSeries`);
-        } else
-        {
+            navigate(`/content/${sub}/testSeries`);
+        } else {
             // alert('not yet subscribed!');
             navigate(`/subscribe?subject=${sub}&section=testSeries`);
         }

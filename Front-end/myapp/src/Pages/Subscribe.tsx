@@ -56,7 +56,7 @@ const Subscribe = () =>
     {
         if (sec === 'videoLectures')
         {
-            return content.length * 1;
+            return content.length * 100;
         } else if (sec === 'testSeries')
         {
             return content.length * 150;
@@ -211,12 +211,6 @@ const Subscribe = () =>
                     {error && <p style={{ color: 'red' }}>{error}</p>}
                     {paymentStatus && <p style={{ color: 'green' }}>{paymentStatus}</p>}
                 </div>
-                <GooglePayButton
-                    environment="TEST"
-                    buttonColor="default"
-                    buttonType="buy"
-                    buttonRadius="4"
-                />
             </div>
 
         </div>
