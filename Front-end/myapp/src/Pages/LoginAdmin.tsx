@@ -46,14 +46,14 @@ const LoginAdmin = () => {
                 <Button className='switch-btn' size="small" color='secondary' variant='contained' onClick={() => navigate("/loginUser")}>User</Button>
             </div>
             <div className="inp-box">
-                <input type="text" className="email-input" placeholder="Email" onChange={(e) => setEmail(e.target.value)} />
-                <input type="text" className="pass-input" placeholder="Password" onChange={(e) => setPassword(e.target.value)} />
-                <p>Forgot Password?</p>
+                <input type="text" className="email-input" required placeholder="Email" onChange={(e) => setEmail(e.target.value)} />
+                <input type="text" className="pass-input" required placeholder="Password" onChange={(e) => setPassword(e.target.value)} />
+                <a className='forgot-pass' href='#'>Forgot Password?</a>
                 <p id="emailError" style={{ color: "red", display: "block" }}>{error}</p>
                 <div className="login-btn">
                     <Button variant="contained" onClick={() => login()}>Login</Button>
                 </div>
-                <a href="/registerAdmin">Don't have an account? Register</a>
+                <a className='switch' href="/registerAdmin">Don't have an account? Register</a>
             </div>
         </div>
     )
