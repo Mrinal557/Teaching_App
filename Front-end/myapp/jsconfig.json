@@ -32,6 +32,6 @@
         "src/Pages/RegisterUser.tsx",
         "src/Pages/ShowAdmin.jsx",
         "src/Pages/ShowUser.tsx"
-, "src/index.jsx", "src/Routes.jsx"    ],
+, "src/index.jsx", "src/Routes.jsx", "src/Components/ViewContent.jsx"    ],
     "exclude": []
 }

@@ -26,11 +26,11 @@ const protectUser = async (req, res, next) =>
       console.log('User not found!');
       return res.status(401).json({ error: 'Not authorized, user not found' });
     }
-    // console.log('User authenticated:', req.user.email);
+    console.log('User authenticated:', req.user.email);
     next();
   } catch (error)
   {
-    console.log('Token verification failed:', error);
+    console.log('Token verification failed: ', error);
     res.status(401).json({ error: 'Not authorized, token failed' });
   }
 };
@@ -55,6 +55,7 @@ const protectAdmin = async (req, res, next) =>
     req.admin = await Admin.findById(decoded.id).select('-password');
     if (!req.admin)
     {
+      console.log('admin not found!');
       return res.status(401).json({ error: 'Not authorized, admin not found' });
     }
     next();

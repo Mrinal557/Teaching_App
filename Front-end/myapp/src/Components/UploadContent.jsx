@@ -45,37 +45,48 @@ const UploadContent = () => {
     };
 
     return (
-        <div>
-            <form onSubmit={handleSubmit}>
-                <h1>Upload Content</h1>
+        <>
+            <div style={{ display: "flex", justifyContent: "center", margin: "10px" }}>
+                <form onSubmit={handleSubmit}>
+                    <div>
+                        <h1>Upload Content</h1>
+                    </div>
+                    <div style={{ margin: "5%" }}>
+                        <select value={subject} onChange={(e) => setSubject(e.target.value)}>
+                            <option value="physicalChemistry">Physical Chemistry</option>
+                            <option value="inorganicChemistry">Inorganic Chemistry</option>
+                            <option value="organicChemistry">Organic Chemistry</option>
+                        </select>
+                    </div>
+                    <div style={{ margin: "5%" }}>
+                        <select value={section} onChange={(e) => setSection(e.target.value)}>
+                            <option value="videoLectures">Video Lectures</option>
+                            <option value="testSeries">Test Series</option>
+                        </select>
+                    </div>
+                    <div style={{ margin: "5%" }}>
+                        <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Title" required />
+                    </div>
+                    <div style={{ margin: "5%" }}>
+                        <textarea value={description} onChange={(e) => setDescription(e.target.value)} placeholder="Description" />
+                    </div>
 
-                <select value={subject} onChange={(e) => setSubject(e.target.value)}>
-                    <option value="physicalChemistry">Physical Chemistry</option>
-                    <option value="inorganicChemistry">Inorganic Chemistry</option>
-                    <option value="organicChemistry">Organic Chemistry</option>
-                </select>
+                    <div style={{ margin: "5%" }}>
+                        <input
+                            type="url"
+                            value={link}
+                            onChange={(e) => setLink(e.target.value)}
+                            placeholder="Enter the link to content"
+                            required
+                        />
+                    </div>
 
-                <select value={section} onChange={(e) => setSection(e.target.value)}>
-                    <option value="videoLectures">Video Lectures</option>
-                    <option value="testSeries">Test Series</option>
-                </select>
-
-                <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Title" required />
-                <textarea value={description} onChange={(e) => setDescription(e.target.value)} placeholder="Description" />
-
-                <input
-                    type="url"
-                    value={link}
-                    onChange={(e) => setLink(e.target.value)}
-                    placeholder="Enter the link to content"
-                    required
-                />
-
-                <button type="submit">Upload</button>
-                {success && <p style={{ color: 'green' }}>{success}</p>}
-                {error && <p style={{ color: 'red' }}>{error}</p>}
-            </form>
-        </div>
+                    <button style={{ margin: "5%" }} type="submit">Upload</button>
+                    {success && <p style={{ color: 'green' }}>{success}</p>}
+                    {error && <p style={{ color: 'red' }}>{error}</p>}
+                </form>
+            </div>
+        </>
     );
 };
 

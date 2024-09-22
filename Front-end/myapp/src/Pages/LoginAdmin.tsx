@@ -6,21 +6,30 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import 'sweetalert2/src/sweetalert2.scss';
-const LoginAdmin = () =>
-{
-    const [ email, setEmail ] = useState("");
-    const [ password, setPassword ] = useState("");
+const LoginAdmin = () => {
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [error, setError] = useState("");
     const navigate = useNavigate();
-    const login= async()=> 
-    {
-        try
-        {
-            const response = await axios.post('http://localhost:5000/api/auth/loginAdmin', { email, password });
-            const token = response.data.token;
-            localStorage.setItem('adminToken', token);
-            navigate("/homeAdmin");
-        } catch (error)
-        {
+    const login = async () => {
+        var errorSection = document.getElementById('emailError');
+        if (errorSection) {
+            errorSection.style.display = "block";
+        }
+        try {
+            if (email === 'm123@gmail.com' || email === 'mrinal.annand@gmail.com') {
+                const response = await axios.post('http://localhost:5000/api/auth/loginAdmin', { email, password });
+                const token = response.data.token;
+                localStorage.setItem('adminToken', token);
+                navigate("/homeAdmin");
+            }
+            else {
+                setError("Email entered is not a valid admin email!");
+                if (errorSection) {
+                    errorSection.style.display = 'block';
+                }
+            }
+        } catch (error) {
             console.log(error);
             Swal.fire({
                 title: 'Error!',
@@ -40,6 +49,7 @@ const LoginAdmin = () =>
                 <input type="text" className="email-input" placeholder="Email" onChange={(e) => setEmail(e.target.value)} />
                 <input type="text" className="pass-input" placeholder="Password" onChange={(e) => setPassword(e.target.value)} />
                 <p>Forgot Password?</p>
+                <p id="emailError" style={{ color: "red", display: "block" }}>{error}</p>
                 <div className="login-btn">
                     <Button variant="contained" onClick={() => login()}>Login</Button>
                 </div>

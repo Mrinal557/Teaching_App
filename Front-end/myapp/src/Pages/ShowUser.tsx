@@ -58,7 +58,7 @@ const ShowUser = () => {
     };
 
     const showT = (sub: keyof Subscriptions) => () => {
-        console.log('subscriptions[sub]: ', subs);
+        // console.log('subscriptions[sub]: ', subs);
         const isSubscribed = subs[sub].testSeries;
         if (isSubscribed) {
             // alert('navigating you to TS page!');

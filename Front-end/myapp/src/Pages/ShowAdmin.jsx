@@ -3,14 +3,17 @@ import Header from '../Components/Header'
 import UploadContent from '../Components/UploadContent';
 import { Button } from '@mui/material';
 import '../styles/ShowUser.css';
-const ShowAdmin = () =>
-{
-    const logout = () =>
-    {
+import { useNavigate } from 'react-router-dom';
+const ShowAdmin = () => {
+    const navigate = useNavigate();
+    const logout = () => {
         localStorage.removeItem('adminToken');
         window.location.replace('/loginAdmin');
         window.localStorage.clear();
         window.sessionStorage.clear();
+    }
+    function viewContent() {
+        navigate("/show");
     }
     return (
         <>
@@ -20,6 +23,9 @@ const ShowAdmin = () =>
             </div>
             <div>
                 <UploadContent />
+            </div>
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
+                <button onClick={viewContent}>Show Content</button>
             </div>
         </>
     )

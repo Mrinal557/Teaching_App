@@ -7,8 +7,8 @@ import LoginAdmin from './Pages/LoginAdmin';
 import ShowAdmin from './Pages/ShowAdmin';
 import ShowUser from './Pages/ShowUser';
 import Subscribe from './Pages/Subscribe';
-const Routing = () =>
-{
+import ViewContent from './Components/ViewContent';
+const Routing = () => {
     return (
         <div>
             <Router>
@@ -21,6 +21,7 @@ const Routing = () =>
                     <Route path="/registerAdmin" element={<RegisterAdmin />} />
                     <Route path="/homeAdmin" element={<ShowAdmin />} />
                     <Route path="/subscribe" element={<Subscribe />} />
+                    <Route path="/show" element={<ViewContent />} />
                 </Routes>
             </Router>
         </div >
